@@ -81,7 +81,7 @@
 		
 		<script>
 			function search() {
-				$.getJSON('.data.json', function(data) {
+				$.getJSON('./data.json', function(data) {
 					var obj = $.parseJSON(data);
 					alert(obj[$('#police-no').val()]);
 				});
