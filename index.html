@@ -48,6 +48,18 @@
 				padding: 10px;
 				margin: 10px;
 			}
+			
+			/* override */
+			.page-content {
+				text-align: center;
+			}
+			.display-inline-block {
+				display: inline-block;
+			}
+			.max-height-440px {
+				max-height: 440px;
+				overflow-y: scroll;
+			}
 		</style>
 	</head>
 	<body>
@@ -65,36 +77,38 @@
 			</div>
 			<main class="mdl-layout__content">
 				<div class="page-content">
-					<div class="mdl-grid">
-						<div class="mdl-shadow--4dp">
-							<p><img class="logo" src="./logo.jpg" /></p>
-							<p><h4>查閱香港警察長期服務獎章得獎者</h4></p>
-							<p>
-								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-									<input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="no">
-									<label class="mdl-textfield__label" for="no">警員編號</label>
-									<span class="mdl-textfield__error">請輸入警員編號</span>
-								</div>
-								<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="search()">
-									查閱
-								</button>
-							</p>
-							<p>**警民對立 誰也沒有好處**</p>
-							<p>來源：香港警務處 (Source: Hong Kong Police Force)</p>
-						</div>
-						<div class="mdl-shadow--4dp">
-							<table class="mdl-data-table mdl-js-data-table" id="result-table">
-								<thead>
-									<tr>
-										<th class="mdl-data-table__cell--non-numeric">警員編號</th>
-										<th class="mdl-data-table__cell--non-numeric">警員姓名</th>
-										<th class="mdl-data-table__cell--non-numeric">職級</th>
-										<th class="mdl-data-table__cell--non-numeric">輔警?</th>
-									</tr>
-								</thead>
-								<tbody>
-								</tbody>
-							</table>
+					<div class="display-inline-block">
+						<div class="mdl-grid">
+							<div class="mdl-shadow--4dp">
+								<p><img class="logo" src="./logo.jpg" /></p>
+								<p><h4>查閱香港警察長期服務獎章得獎者</h4></p>
+								<p>
+									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+										<input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="no">
+										<label class="mdl-textfield__label" for="no">警員編號</label>
+										<span class="mdl-textfield__error">請輸入警員編號</span>
+									</div>
+									<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="getData()">
+										查閱
+									</button>
+								</p>
+								<p>**警民對立 誰也沒有好處**</p>
+								<p>來源：香港警務處 (Source: Hong Kong Police Force)</p>
+							</div>
+							<div class="mdl-shadow--4dp max-height-440px">
+								<table class="mdl-data-table mdl-js-data-table" id="result-table">
+									<thead>
+										<tr>
+											<th class="mdl-data-table__cell--non-numeric">警員編號</th>
+											<th class="mdl-data-table__cell--non-numeric">警員姓名</th>
+											<th class="mdl-data-table__cell--non-numeric">職級</th>
+											<th class="mdl-data-table__cell--non-numeric">輔警?</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -106,40 +120,51 @@
 		</div>
 		
 		<script>
+			var officers = null;
+		
+			function getData() {
+				if (!officers) {
+					$.getJSON('./data.json', function(data) {
+						officers = data;
+						search();
+					});
+				} else {
+					search();
+				}
+			}
+		
 			function search() {
-				$.getJSON('./data.json', function(officers) {
-					var no = $('#no').val();
-					
-					if (!!no) {
-						if (!officers.hasOwnProperty(no)) {
-							document.querySelector('#snackbar').MaterialSnackbar.showSnackbar({message: '找不到警員 (編號: ' + no + ')'});
-						} else {
-							var name = officers[no][0];
-							var role = officers[no][1];
-							var isAuxiliary = !!officers[no][2];
-							
-							var row = (
-								'<tr>'
-								+ '<td>' + no + '</td>'
-								+ '<td>' + name + '</td>'
-								+ '<td>' + (
-									role == 1 ? '警司' :
-									role == 2 ? '總督察' :
-									role == 3 ? '高級督察' :
-									role == 4 ? '督察' :
-									role == 5 ? '警署警長' :
-									role == 6 ? '警長' :
-									role == 7 ? '高級警員' :
-									'警員'
-									) + '</td>'
-								+ '<td>' + (isAuxiliary ? '<i class="material-icons">check</i>' : '<i class="material-icons">close</i>') + '</td>'
-								+ '</tr>'
-							);
-							
-							$('#result-table').find('tbody').append(row);
-						}
+				var no = $('#no').val();
+				
+				if (!!no) {
+					if (!officers.hasOwnProperty(no)) {
+						document.querySelector('#snackbar').MaterialSnackbar.showSnackbar({message: '找不到警員 (編號: ' + no + ')'});
+					} else {
+						var name = officers[no][0];
+						var role = officers[no][1];
+						var isAuxiliary = !!officers[no][2];
+						
+						var row = (
+							'<tr>'
+							+ '<td>' + no + '</td>'
+							+ '<td>' + name + '</td>'
+							+ '<td>' + (
+								role == 1 ? '警司' :
+								role == 2 ? '總督察' :
+								role == 3 ? '高級督察' :
+								role == 4 ? '督察' :
+								role == 5 ? '警署警長' :
+								role == 6 ? '警長' :
+								role == 7 ? '高級警員' :
+								'警員'
+								) + '</td>'
+							+ '<td>' + (isAuxiliary ? '<i class="material-icons">check</i>' : '<i class="material-icons">close</i>') + '</td>'
+							+ '</tr>'
+						);
+						
+						$('#result-table').find('tbody').prepend(row);
 					}
-				});
+				}
 			}
 		</script>
 	</body>
