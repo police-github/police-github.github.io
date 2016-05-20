@@ -3,7 +3,7 @@
 	<head>
 		<title>查詢香港警察長期服務獎章得獎者</title>
 		<meta charset="utf-8">
-		<meta name="description" content="表揚香港警察, 以警員編號查詢香港警察得獎者">
+		<meta name="description" content="以警員編號查詢警察姓名">
 		<meta name="keywords" content="香港,警察,編號,查詢,表揚,香港警察,警察編號,查詢香港警察,表揚香港警察">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		
@@ -93,6 +93,7 @@
 			
 			function reset() {
 				$('#result-table').find('tbody').empty();
+				$('#no').val() = '';
 			}
 		
 			function search() {
