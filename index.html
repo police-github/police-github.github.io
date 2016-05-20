@@ -127,11 +127,13 @@
 			var officers = null;
 			var officers2 = null;
 		
-			$.getJSON('./data.json', function(data) {
-				officers = data;
-			});
-			$.getJSON('./data2.json', function(data) {
-				officers2 = data;
+			$(function() {
+				$.getJSON('./data.json', function(data) {
+					officers = data;
+				});
+				$.getJSON('./data2.json', function(data) {
+					officers2 = data;
+				});
 			});
 		
 			function search() {
