@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 	<head>
@@ -16,18 +15,16 @@
 		<script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
 		
 		<style>
-			@font-face {
-				font-family: 'cwTeXHei';
-				font-style: normal;
-				font-weight: 500;
-				src: url(https://fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.eot);
-				src: url(https://fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.eot?#iefix) format('embedded-opentype'),
-					url(https://fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.woff2) format('woff2'),
-					url(https://fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.woff) format('woff'),
-					url(https://fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.ttf) format('truetype');
+			@import url(http://fonts.googleapis.com/earlyaccess/notosanstc.css);
+
+			.mdl-button,
+			.mdl-textfield,
+			.mdl-data-table__cell--non-numeric {
+				font-family: 'Noto Sans TC', sans-serif !important;
 			}
+			
 			.container {
-				text-align: center;
+				text-align: center !important;
 			}
 			.section {
 				display: inline-block !important;
@@ -38,6 +35,9 @@
 			}
 			.mdl-card__actions {
 				padding: 10px 20px !important;
+			}
+			.mdl-data-table {
+				border: none !important;
 			}
 		</style>
 	</head>
@@ -51,8 +51,12 @@
 							<label class="mdl-textfield__label" for="no">警員編號</label>
 							<span class="mdl-textfield__error">請輸入警員編號</span>
 						</div>
-						<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" onclick="search()">查詢</button>
-						<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="reset()">重設</button>
+						<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" onclick="search()">
+							查詢<i class="material-icons">search</i>
+						</button>
+						<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="reset()">
+							重設<i class="material-icons">cached</i>
+						</button>
 					</div>
 				</div>
 				<table class="mdl-data-table mdl-js-data-table" id="result-table">
