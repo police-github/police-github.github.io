@@ -127,11 +127,12 @@
 			var officers = null;
 			var officers2 = null;
 		
-			$(function() {
-				$.getJSON('./data.json', function(data) {
+			var $j = jQuery.noConflict();
+			$j(document).ready(function() {
+				$j.getJSON('./data.json', function(data) {
 					officers = data;
 				});
-				$.getJSON('./data2.json', function(data) {
+				$j.getJSON('./data2.json', function(data) {
 					officers2 = data;
 				});
 			});
