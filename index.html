@@ -144,24 +144,15 @@
 					if (!officers.hasOwnProperty(no)) {
 						document.querySelector('#snackbar').MaterialSnackbar.showSnackbar({message: '找不到警員 (編號: ' + no + ')'});
 					} else {
-						var name = officers[no][0];
-						var role = officers[no][1];
-						var isAuxiliary = !!officers[no][2];
+						var name = officers[no].name;
+						var position = officers[no].position;
+						var isAuxiliary = officers[no].isAuxiliary;
 						
 						var row = (
 							'<tr>'
 							+ '<td>' + no + '</td>'
 							+ '<td>' + name + '</td>'
-							+ '<td>' + (
-								role == 1 ? '警司' :
-								role == 2 ? '總督察' :
-								role == 3 ? '高級督察' :
-								role == 4 ? '督察' :
-								role == 5 ? '警署警長' :
-								role == 6 ? '警長' :
-								role == 7 ? '高級警員' :
-								'警員'
-								) + '</td>'
+							+ '<td>' + position + '</td>'
 							+ '<td>' + (isAuxiliary ? '<i class="material-icons">check</i>' : '<i class="material-icons">close</i>') + '</td>'
 							+ '</tr>'
 						);
