@@ -92,7 +92,7 @@
 										<label class="mdl-textfield__label" for="no">警員編號</label>
 										<span class="mdl-textfield__error">請輸入警員編號</span>
 									</div>
-									<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="getData()">
+									<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="search()">
 										查詢
 									</button>
 								</p>
@@ -125,24 +125,21 @@
 		
 		<script>
 			var officers = null;
+			var officers2 = null;
 		
-			function getData() {
-				if (!officers) {
-					$.getJSON('./data.json', function(data) {
-						officers = data;
-						search();
-					});
-				} else {
-					search();
-				}
-			}
+			$.getJSON('./data.json', function(data) {
+				officers = data;
+			});
+			$.getJSON('./data2.json', function(data) {
+				officers2 = data;
+			});
 		
 			function search() {
 				var no = $('#no').val();
 				
 				if (!!no) {
 					if (!officers.hasOwnProperty(no)) {
-						document.querySelector('#snackbar').MaterialSnackbar.showSnackbar({message: '找不到警員 (編號: ' + no + ')'});
+						search2();
 					} else {
 						var name = officers[no].name;
 						var position = officers[no].position;
@@ -153,6 +150,40 @@
 							+ '<td>' + no + '</td>'
 							+ '<td>' + name + '</td>'
 							+ '<td>' + position + '</td>'
+							+ '<td>' + (isAuxiliary ? '<i class="material-icons">check</i>' : '<i class="material-icons">close</i>') + '</td>'
+							+ '</tr>'
+						);
+						
+						$('#result-table').find('tbody').prepend(row);
+					}
+				}
+			}
+			
+			function search2() {
+				var no = $('#no').val();
+				
+				if (!!no) {
+					if (!officers2.hasOwnProperty(no)) {
+						document.querySelector('#snackbar').MaterialSnackbar.showSnackbar({message: '找不到警員 (編號: ' + no + ')'});
+					} else {
+						var name = officers2[no][0];
+						var role = officers2[no][1];
+						var isAuxiliary = !!officers2[no][2];
+						
+						var row = (
+							'<tr>'
+							+ '<td>' + no + '</td>'
+							+ '<td>' + name + '</td>'
+							+ '<td>' + (
+								role == 1 ? '警司' :
+								role == 2 ? '總督察' :
+								role == 3 ? '高級督察' :
+								role == 4 ? '督察' :
+								role == 5 ? '警署警長' :
+								role == 6 ? '警長' :
+								role == 7 ? '高級警員' :
+								'警員'
+								) + '</td>'
 							+ '<td>' + (isAuxiliary ? '<i class="material-icons">check</i>' : '<i class="material-icons">close</i>') + '</td>'
 							+ '</tr>'
 						);
