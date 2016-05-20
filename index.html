@@ -1,5 +1,5 @@
 
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>查詢香港警察長期服務獎章得獎者</title>
@@ -26,9 +26,15 @@
 					url(https://fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.woff) format('woff'),
 					url(https://fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.ttf) format('truetype');
 			}
+			.container {
+				text-align: center;
+			}
+			.section {
+				display: inline-block !important;
+			}
 			.mdl-card {
 				min-height: initial !important;
-				width: auto !important;
+				width: 320px !important;
 			}
 			.mdl-card__actions {
 				padding: 10px 20px !important;
@@ -36,30 +42,33 @@
 		</style>
 	</head>
 	<body>
-		<div class="mdl-card mdl-shadow--2dp">
-			<div class="mdl-card__supporting-text">
-				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-					<input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="no">
-					<label class="mdl-textfield__label" for="no">警員編號</label>
-					<span class="mdl-textfield__error">請輸入警員編號</span>
+		<div class="container">
+			<div class="section">
+				<div class="mdl-card mdl-shadow--2dp">
+					<div class="mdl-card__supporting-text">
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+							<input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="no">
+							<label class="mdl-textfield__label" for="no">警員編號</label>
+							<span class="mdl-textfield__error">請輸入警員編號</span>
+						</div>
+						<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" onclick="search()">查詢</button>
+						<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="reset()">重設</button>
+					</div>
 				</div>
-				<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" onclick="search()">
-					查詢
-				</button>
+				<table class="mdl-data-table mdl-js-data-table" id="result-table">
+					<thead>
+						<tr>
+							<th class="mdl-data-table__cell--non-numeric">警員編號</th>
+							<th class="mdl-data-table__cell--non-numeric">警員姓名</th>
+							<th class="mdl-data-table__cell--non-numeric">職級</th>
+							<th class="mdl-data-table__cell--non-numeric">輔警?</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
 			</div>
 		</div>
-		<table class="mdl-data-table mdl-js-data-table" id="result-table">
-			<thead>
-				<tr>
-					<th class="mdl-data-table__cell--non-numeric">警員編號</th>
-					<th class="mdl-data-table__cell--non-numeric">警員姓名</th>
-					<th class="mdl-data-table__cell--non-numeric">職級</th>
-					<th class="mdl-data-table__cell--non-numeric">輔警?</th>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
-		</table>
 		<div id="snackbar" class="mdl-js-snackbar mdl-snackbar">
 			<div class="mdl-snackbar__text"></div>
 			<button class="mdl-snackbar__action" type="button"></button>
@@ -77,6 +86,10 @@
 					officers2 = data;
 				});
 			});
+			
+			function reset() {
+				$('#result-table').find('tbody').empty();
+			}
 		
 			function search() {
 				var no = $('#no').val();
