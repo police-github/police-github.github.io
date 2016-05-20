@@ -1,4 +1,4 @@
-# Hong Kong Police Long Service Medal Query System
+## Hong Kong Police Long Service Medal Query System
 
 > Inspired by an android app called "表揚香港警察"
 
