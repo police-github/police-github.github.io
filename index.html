@@ -1,17 +1,18 @@
-﻿ <!DOCTYPE html>
+
+ <!DOCTYPE html>
 <html>
 	<head>
 		<title>查詢香港警察長期服務獎章得獎者</title>
 		<meta charset="utf-8">
 		<meta name="description" content="表揚香港警察, 以警員編號查詢香港警察得獎者">
 		<meta name="keywords" content="香港,警察,編號,查詢,表揚,香港警察,警察編號,查詢香港警察,表揚香港警察">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 		<script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
 		
-		<link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.blue_grey-pink.min.css">
+		<link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.indigo-pink.min.css">
 		<script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
 		
 		<style>
@@ -25,99 +26,40 @@
 					url(https://fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.woff) format('woff'),
 					url(https://fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.ttf) format('truetype');
 			}
-			.container {
-				width: 400px;
-				margin: 0px auto;
-				padding: 10px;
-				font-size: 24px;
-				font-weight: 300;
-				font-family: 'cwTeXHei','Roboto','Helvetica','Arial','sans-serif';
+			.mdl-card {
+				min-height: initial !important;
+				width: auto !important;
 			}
-			h1, h2, h3, h4, h5 {
-				font-family: 'cwTeXHei','Roboto','Helvetica','Arial','sans-serif';
-			}
-			table {
-				margin: 0px auto;
-			}
-			.logo {
-				width: 300px;
-			}
-			.thumb {
-				width: 200px;
-				margin: 0px auto;
-			}
-			.mdl-shadow--4dp {
-				padding: 10px;
-				margin: 10px;
-			}
-			
-			/* override */
-			.page-content {
-				text-align: center;
-			}
-			.display-inline-block {
-				display: inline-block;
-			}
-			.max-height-440px {
-				max-height: 440px;
-				overflow-y: scroll;
+			.mdl-card__actions {
+				padding: 10px 20px !important;
 			}
 		</style>
 	</head>
 	<body>
-		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-			<header class="mdl-layout__header">
-				<div class="mdl-layout__header-row">
-					<span class="mdl-layout-title">查詢香港警察長期服務獎章得獎者</span>
+		<div class="mdl-card mdl-shadow--2dp">
+			<div class="mdl-card__supporting-text">
+				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+					<input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="no">
+					<label class="mdl-textfield__label" for="no">警員編號</label>
+					<span class="mdl-textfield__error">請輸入警員編號</span>
 				</div>
-			</header>
-			<div class="mdl-layout__drawer">
-				<img class="mdl-shadow--4dp thumb" src="./ribbon.png" />
-				<span class="mdl-layout-title">
-					<h4>表揚香港警察</h4>
-				</span>
+				<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" onclick="search()">
+					查詢
+				</button>
 			</div>
-			<main class="mdl-layout__content">
-				<div class="page-content">
-					<div class="display-inline-block">
-						<div class="mdl-grid">
-							<div class="mdl-shadow--4dp">
-								<!-- 
-								<p><img class="logo" src="./logo.jpg" /></p>
-								--> 
-								<p><h4>查詢香港警察長期服務獎章得獎者</h4></p>
-								<p>
-									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-										<input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="no">
-										<label class="mdl-textfield__label" for="no">警員編號</label>
-										<span class="mdl-textfield__error">請輸入警員編號</span>
-									</div>
-									<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="search()">
-										查詢
-									</button>
-								</p>
-								<p>**警民對立 誰也沒有好處**</p>
-								<p>來源：香港警務處 (Source: Hong Kong Police Force)</p>
-							</div>
-							<div class="mdl-shadow--4dp max-height-440px">
-								<table class="mdl-data-table mdl-js-data-table" id="result-table">
-									<thead>
-										<tr>
-											<th class="mdl-data-table__cell--non-numeric">警員編號</th>
-											<th class="mdl-data-table__cell--non-numeric">警員姓名</th>
-											<th class="mdl-data-table__cell--non-numeric">職級</th>
-											<th class="mdl-data-table__cell--non-numeric">輔警?</th>
-										</tr>
-									</thead>
-									<tbody>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-				</div>
-			</main>
 		</div>
+		<table class="mdl-data-table mdl-js-data-table" id="result-table">
+			<thead>
+				<tr>
+					<th class="mdl-data-table__cell--non-numeric">警員編號</th>
+					<th class="mdl-data-table__cell--non-numeric">警員姓名</th>
+					<th class="mdl-data-table__cell--non-numeric">職級</th>
+					<th class="mdl-data-table__cell--non-numeric">輔警?</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
 		<div id="snackbar" class="mdl-js-snackbar mdl-snackbar">
 			<div class="mdl-snackbar__text"></div>
 			<button class="mdl-snackbar__action" type="button"></button>
