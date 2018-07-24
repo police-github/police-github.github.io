@@ -74,6 +74,7 @@
 							<th>警員姓名</th>
 							<th>職級</th>
 							<th>輔警?</th>
+							<th>來源</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -173,30 +174,31 @@
 						<tr>
 							<td>2011</td>
 							<td>
+								<a href="https://www.gld.gov.hk/egazette/pdf/20111526/cgn201115264112.pdf">cgn201115264112.pdf</a><br>
 							</td>
 						</tr>
 						<tr>
 							<td>2012</td>
 							<td>
-							  <a href="http://www.gld.gov.hk/egazette/pdf/20121603/cgn20121603263.pdf">cgn20121603263.pdf</a><br>
-							  <a href="http://www.gld.gov.hk/egazette/pdf/20121632/cgn201216325323.pdf">cgn201216325323.pdf</a><br>
-							  <a href="http://www.gld.gov.hk/egazette/pdf/20121632/cgn201216325324.pdf">cgn201216325324.pdf</a><br>
-							  <a href="http://www.gld.gov.hk/egazette/pdf/20121652/cgn201216528251.pdf">cgn201216528251.pdf</a><br>
+								<a href="http://www.gld.gov.hk/egazette/pdf/20121603/cgn20121603263.pdf">cgn20121603263.pdf</a><br>
+								<a href="http://www.gld.gov.hk/egazette/pdf/20121632/cgn201216325323.pdf">cgn201216325323.pdf</a><br>
+								<a href="http://www.gld.gov.hk/egazette/pdf/20121632/cgn201216325324.pdf">cgn201216325324.pdf</a><br>
+								<a href="http://www.gld.gov.hk/egazette/pdf/20121652/cgn201216528251.pdf">cgn201216528251.pdf</a><br>
 							</td>
 						</tr>
 						<tr>
 							<td>2013</td>
 							<td>
-							  <a href="http://www.gld.gov.hk/egazette/pdf/20131732/cgn201317324576.pdf">cgn201317324576.pdf</a><br>
-							  <a href="http://www.gld.gov.hk/egazette/pdf/20131733/cgn201317334756.pdf">cgn201317334756.pdf</a><br>
+								<a href="http://www.gld.gov.hk/egazette/pdf/20131732/cgn201317324576.pdf">cgn201317324576.pdf</a><br>
+								<a href="http://www.gld.gov.hk/egazette/pdf/20131733/cgn201317334756.pdf">cgn201317334756.pdf</a><br>
 							</td>
 						</tr>
 						<tr>
 							<td>2014</td>
 							<td>
-							  <a href="http://www.gld.gov.hk/egazette/pdf/20141813/cgn201418131744.pdf">cgn201418131744.pdf</a><br>
-							  <a href="http://www.gld.gov.hk/egazette/pdf/20141832/cgn201418324511.pdf">cgn201418324511.pdf</a><br>
-							  <a href="http://www.gld.gov.hk/egazette/pdf/20141832/cgn201418324512.pdf">cgn201418324512.pdf</a><br>
+								<a href="http://www.gld.gov.hk/egazette/pdf/20141813/cgn201418131744.pdf">cgn201418131744.pdf</a><br>
+								<a href="http://www.gld.gov.hk/egazette/pdf/20141832/cgn201418324511.pdf">cgn201418324511.pdf</a><br>
+								<a href="http://www.gld.gov.hk/egazette/pdf/20141832/cgn201418324512.pdf">cgn201418324512.pdf</a><br>
 							</td>
 						</tr>
 						<tr>
@@ -207,9 +209,15 @@
 						<tr>
 							<td>2016</td>
 							<td>
-							  <a href="http://www.gld.gov.hk/egazette/pdf/20162001/cgn2016200125.pdf">cgn2016200125.pdf</a><br>
+								<a href="https://www.gld.gov.hk/egazette/pdf/20061017/cgn200610172570.pdf">cgn200610172570.pdf</a><br>
+								<a href="http://www.gld.gov.hk/egazette/pdf/20162001/cgn2016200125.pdf">cgn2016200125.pdf</a><br>
 							</td>
 						</tr>
+						<tr>
+							<td>2017</td>
+							<td>
+								<a href="https://www.gld.gov.hk/egazette/pdf/20172126/cgn201721264331.pdf">cgn201721264331.pdf</a><br>
+							</td>
 					</tbody>
 				</table>
 				<p></p>
@@ -247,9 +255,6 @@
 				$.getJSON('./data.json', function(data) {
 					officers = data;
 				});
-				$.getJSON('./data2.json', function(data) {
-					officers2 = data;
-				});
 			});
 			
 			function resetForm() {
@@ -262,67 +267,33 @@
 				e.preventDefault();
 			
 				var no = $('#no').val();
-				
 				if (!!no) {
 					if (!officers.hasOwnProperty(no)) {
-						search2();
-					} else {
-						var name = officers[no].name;
-						var position = officers[no].position;
-						var isAuxiliary = officers[no].isAuxiliary;
-						
-						var row = (
-							'<tr>'
-							+ '<td>' + no + '</td>'
-							+ '<td>' + name + '</td>'
-							+ '<td>' + position + '</td>'
-							+ '<td>' + (isAuxiliary ? '<i class="material-icons">check</i>' : '<i class="material-icons">close</i>') + '</td>'
-							+ '</tr>'
-						);
-						
-						$('#no').val('');
-						$('#not-found').hide();
-						$('#result-table').find('tbody').prepend(row);
-					}
-				}
-			});
-			
-			function search2() {
-				var no = $('#no').val();
-				
-				if (!!no) {
-					if (!officers2.hasOwnProperty(no)) {
 						$('#not-found').html('找不到警員資料 (編號: ' + no + ')');
 						$('#not-found').show();
 					} else {
-						var name = officers2[no][0];
-						var role = officers2[no][1];
-						var isAuxiliary = !!officers2[no][2];
-						
-						var row = (
-							'<tr>'
-							+ '<td>' + no + '</td>'
-							+ '<td>' + name + '</td>'
-							+ '<td>' + (
-								role == 1 ? '警司' :
-								role == 2 ? '總督察' :
-								role == 3 ? '高級督察' :
-								role == 4 ? '督察' :
-								role == 5 ? '警署警長' :
-								role == 6 ? '警長' :
-								role == 7 ? '高級警員' :
-								'警員'
-								) + '</td>'
-							+ '<td>' + (isAuxiliary ? '<i class="material-icons">check</i>' : '<i class="material-icons">close</i>') + '</td>'
-							+ '</tr>'
-						);
-						
-						$('#no').val('');
-						$('#not-found').hide();
-						$('#result-table').find('tbody').prepend(row);
+						$.each(officers[no], function(index, officer) {
+							var name = officer.name;
+							var position = officer.position;
+							var isAuxiliary = officer.isAuxiliary;
+							var source = officer.source;
+							var row = (
+								'<tr>'
+								+ '<td>' + no + '</td>'
+								+ '<td>' + name + '</td>'
+								+ '<td>' + position + '</td>'
+								+ '<td>' + (isAuxiliary ? '<i class="material-icons">check</i>' : '<i class="material-icons">close</i>') + '</td>'
+								+ '<td><a href="' + source + '">' + source.split('/')[source.split('/').length - 1] + '</a></td>'
+								+ '</tr>'
+							);
+							
+							$('#no').val('');
+							$('#not-found').hide();
+							$('#result-table').find('tbody').prepend(row);
+						});
 					}
 				}
-			}
+			});
 		</script>
 	</body>
 </html> 
