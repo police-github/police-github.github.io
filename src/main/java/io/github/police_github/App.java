@@ -2,6 +2,7 @@ package io.github.police_github;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -28,6 +29,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 
@@ -130,7 +132,6 @@ public class App {
 		}
 		*/
 		
-		/*
 		List<String> urls = Arrays.asList(
 				"https://www.gld.gov.hk/egazette/pdf/20010520/cgn200105202998.pdf",
 				"https://www.gld.gov.hk/egazette/pdf/20010520/cgn200105202999.pdf",
@@ -148,10 +149,12 @@ public class App {
 				"https://www.gld.gov.hk/egazette/pdf/20040814/cgn200408142135.pdf",
 				"https://www.gld.gov.hk/egazette/pdf/20040839/cgn200408396217.pdf",
 				
+				"https://www.gld.gov.hk/egazette/pdf/20050941/cgn200509415186.pdf",
 				"https://www.gld.gov.hk/egazette/pdf/20050911/cgn200509111188.pdf",
 				"https://www.gld.gov.hk/egazette/pdf/20050911/cgn200509111189.pdf",
 				
 				"https://www.gld.gov.hk/egazette/pdf/20061017/cgn200610172570.pdf",
+				"https://www.gld.gov.hk/egazette/pdf/20061017/cgn200610172571.pdf",
 				"https://www.gld.gov.hk/egazette/pdf/20061036/cgn200610365550.pdf",
 				
 				"https://www.gld.gov.hk/egazette/pdf/20071116/cgn200711162451.pdf",
@@ -162,12 +165,15 @@ public class App {
 				"https://www.gld.gov.hk/egazette/pdf/20081218/cgn200812182831.pdf",
 				"https://www.gld.gov.hk/egazette/pdf/20081242/cgn200812427035.pdf",
 				
+	            "https://www.gld.gov.hk/egazette/pdf/20091318/cgn200913182591.pdf",
+	            "https://www.gld.gov.hk/egazette/pdf/20091318/cgn200913182592.pdf",
 				"https://www.gld.gov.hk/egazette/pdf/20091343/cgn200913436560.pdf",
 				
 				"https://www.gld.gov.hk/egazette/pdf/20101425/cgn201014253660.pdf",
 				"https://www.gld.gov.hk/egazette/pdf/20101425/cgn201014253661.pdf",
 				"https://www.gld.gov.hk/egazette/pdf/20101448/cgn201014487510.pdf",
 				
+	        	"https://www.gld.gov.hk/egazette/pdf/20111526/cgn201115264109.pdf",
 				"https://www.gld.gov.hk/egazette/pdf/20111526/cgn201115264112.pdf",
 				
 				"https://www.gld.gov.hk/egazette/pdf/20121603/cgn20121603263.pdf",
@@ -182,19 +188,30 @@ public class App {
 				"https://www.gld.gov.hk/egazette/pdf/20141832/cgn201418324511.pdf",
 				"https://www.gld.gov.hk/egazette/pdf/20141832/cgn201418324512.pdf",
 				
-				"https://www.gld.gov.hk/egazette/pdf/20162001/cgn2016200125.pdf",
+	            "https://www.gld.gov.hk/egazette/pdf/20151905/cgn201519051206.pdf",
+	            "https://www.gld.gov.hk/egazette/pdf/20151928/cgn201519284900.pdf",
+	            "https://www.gld.gov.hk/egazette/pdf/20151928/cgn201519284901.pdf",
 				
-				"https://www.gld.gov.hk/egazette/pdf/20172126/cgn201721264331.pdf"
-		);
-		*/
-		List<String> urls = Arrays.asList(
-				"https://www.gld.gov.hk/egazette/pdf/20172126/cgn201721264331.pdf"
+				"https://www.gld.gov.hk/egazette/pdf/20162001/cgn2016200125.pdf",
+	            "https://www.gld.gov.hk/egazette/pdf/20162029/cgn201620294038.pdf",
+	            "https://www.gld.gov.hk/egazette/pdf/20162029/cgn201620294039.pdf",
+				
+	            "https://www.gld.gov.hk/egazette/pdf/20172103/cgn20172103251.pdf",
+	            "https://www.gld.gov.hk/egazette/pdf/20172126/cgn201721264331.pdf",
+	            "https://www.gld.gov.hk/egazette/pdf/20172126/cgn201721264332.pdf",
+	            
+	            "https://www.gld.gov.hk/egazette/pdf/20182202/cgn20182202143.pdf",
+	            "https://www.gld.gov.hk/egazette/pdf/20182229/cgn201822295363.pdf",
+	            "https://www.gld.gov.hk/egazette/pdf/20182229/cgn201822295364.pdf",
+	            
+	            "https://www.gld.gov.hk/egazette/pdf/20192301/cgn2019230137.pdf"
 		);
 		
 		for (String url : urls) {
 			logger.info("Handle: " + url);
 			try {
-				File file = File.createTempFile("police-github", ".pdf");
+//				File file = File.createTempFile("police-github", ".pdf");
+				File file = new File("/tmp/cop/" + FilenameUtils.getName(url));
 				FileUtils.copyURLToFile(new URL(url), file);
 				if (file.exists()) {
 					String[] lines = app.getPdfContent(file).split("\r\n");

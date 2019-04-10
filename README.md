@@ -44,11 +44,14 @@ The data used in this project were retrieved from http://www.gld.gov.hk/egazette
         <td>
           http://www.gld.gov.hk/egazette/pdf/20050911/cgn200509111188.pdf
           http://www.gld.gov.hk/egazette/pdf/20050911/cgn200509111189.pdf (輔助警察)
+          https://www.gld.gov.hk/egazette/pdf/20050941/cgn200509415186.pdf
         </td>
     </tr>
     <tr>
         <td>2006</td>
         <td>
+          https://www.gld.gov.hk/egazette/pdf/20061017/cgn200610172570.pdf
+          https://www.gld.gov.hk/egazette/pdf/20061017/cgn200610172571.pdf
           http://www.gld.gov.hk/egazette/pdf/20061036/cgn200610365550.pdf
         </td>
     </tr>
@@ -71,6 +74,8 @@ The data used in this project were retrieved from http://www.gld.gov.hk/egazette
     <tr>
         <td>2009</td>
         <td>
+            https://www.gld.gov.hk/egazette/pdf/20091318/cgn200913182591.pdf
+            https://www.gld.gov.hk/egazette/pdf/20091318/cgn200913182592.pdf
             http://www.gld.gov.hk/egazette/pdf/20091343/cgn200913436560.pdf
         </td>
     </tr>
@@ -85,6 +90,8 @@ The data used in this project were retrieved from http://www.gld.gov.hk/egazette
     <tr>
         <td>2011</td>
         <td>
+        	https://www.gld.gov.hk/egazette/pdf/20111526/cgn201115264109.pdf
+        	https://www.gld.gov.hk/egazette/pdf/20111526/cgn201115264112.pdf
         </td>
     </tr>
     <tr>
@@ -114,19 +121,44 @@ The data used in this project were retrieved from http://www.gld.gov.hk/egazette
     <tr>
         <td>2015</td>
         <td>
+          https://www.gld.gov.hk/egazette/pdf/20151905/cgn201519051206.pdf
+          https://www.gld.gov.hk/egazette/pdf/20151928/cgn201519284900.pdf
+          https://www.gld.gov.hk/egazette/pdf/20151928/cgn201519284901.pdf
         </td>
     </tr>
     <tr>
         <td>2016</td>
         <td>
           http://www.gld.gov.hk/egazette/pdf/20162001/cgn2016200125.pdf
+          https://www.gld.gov.hk/egazette/pdf/20162029/cgn201620294038.pdf
+          https://www.gld.gov.hk/egazette/pdf/20162029/cgn201620294039.pdf
         </td>
     </tr>
     <tr>
         <td>2017</td>
         <td>
+          https://www.gld.gov.hk/egazette/pdf/20172103/cgn20172103251.pdf
           https://www.gld.gov.hk/egazette/pdf/20172126/cgn201721264331.pdf
+          https://www.gld.gov.hk/egazette/pdf/20172126/cgn201721264332.pdf
+        </td>
+    </tr>
+    <tr>
+        <td>2018</td>
+        <td>
+          https://www.gld.gov.hk/egazette/pdf/20182202/cgn20182202143.pdf
+          https://www.gld.gov.hk/egazette/pdf/20182229/cgn201822295363.pdf
+          https://www.gld.gov.hk/egazette/pdf/20182229/cgn201822295364.pdf
+        </td>
+    </tr>
+    <tr>
+        <td>2019</td>
+        <td>
+          https://www.gld.gov.hk/egazette/pdf/20192301/cgn2019230137.pdf
         </td>
     </tr>
 </table>
+
+https://www.gld.gov.hk/egazette/tc_chi/search_gazette/search_gov_notice.html can be used to search the gazettes above.
+E.g. https://www.gld.gov.hk/egazette/tc_chi/search_gazette/search.php?Year=2000&Date=&NoticeNo=&Title=警察&type=mg&submit=搜尋
+
 
