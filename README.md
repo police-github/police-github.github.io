@@ -1,8 +1,11 @@
+
+<!--
 # APK by PhoneGap (Offline version)
 ## APK: 
 #### https://github.com/police-github/police-github.github.io/raw/master/police_github-1.0.0.apk
 ## PhoneGap Source: 
 #### https://github.com/police-github/police-github.github.io/raw/master/police-github.phonegap.zip
+-->
 
 <p></p>
 <br/><br/><br/>
