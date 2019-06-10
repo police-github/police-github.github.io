@@ -1,3 +1,13 @@
+# APK by PhoneGap (Offline version)
+## APK: 
+#### https://github.com/police-github/police-github.github.io/raw/master/police_github-1.0.0.apk
+## PhoneGap Source: 
+#### https://github.com/police-github/police-github.github.io/raw/master/police-github.phonegap.zip
+
+<p></p>
+<br/><br/><br/>
+<br/><br/><br/>
+
 ## Hong Kong Police Long Service Medal Query System
 
 > Inspired by an android app called "表揚香港警察"
@@ -40,7 +50,7 @@ The data used in this project were retrieved from http://www.gld.gov.hk/egazette
         </td>
     </tr>
     <tr>
-        <td>2005</td>
+        <td>2005</td>##
         <td>
           http://www.gld.gov.hk/egazette/pdf/20050911/cgn200509111188.pdf
           http://www.gld.gov.hk/egazette/pdf/20050911/cgn200509111189.pdf (輔助警察)
