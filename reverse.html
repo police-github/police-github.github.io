@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>查詢警員資料</title>
+		<meta charset="utf-8">
+		<meta name="description" content="可通過警員編號查詢警員資料(姓名,職級,輔警?)以作表揚">
+		<meta name="keywords" content="香港,警察,警員,編號,查詢,資料,香港警察,香港警員,警察編號,警員編號,查詢警察資料,查詢警員資料,黑警,黑警死全家">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+		<script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+		
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+		
+		<style>
+			@import url(http://fonts.googleapis.com/earlyaccess/notosanstc.css);
+
+			body {
+				font-family: 'Noto Sans TC', sans-serif !important;
+			}
+			.brand {
+				height: 100%;
+			}
+			#not-found, 
+			#not-found-reverse, 
+			#section-2, 
+			#section-reverse {
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<h5 style="text-align: center;">
+				APK (Offline Version): <a href="https://github.com/police-github/police-github.github.io/raw/master/police_github-debug.3603589.10.apk">20190610_20:01_build</a>
+			</h5>
+			<p></p>
+			<nav class="navbar navbar-default">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<span class="navbar-brand">
+							<img class="brand" alt="Brand" src="./brand.png">
+						</span>
+					</div>
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							<li id="tab-1" class="active"><a href="javascript:void(0)" onclick="tab1()">查詢警員資料 (by 編號)<span class="sr-only">(current)</span></a></li>
+							<li id="tab-reverse"><a href="javascript:void(0)" onclick="tabReverse()">查詢警員資料 (by 姓名)</a></li>
+							<li id="tab-2"><a href="javascript:void(0)" onclick="tab2()">關於</a></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+			<div class="container-fluid" id="section-1">
+				<form id="search-form">
+					<div class="form-group">
+						<div class="alert alert-danger" role="alert" id="not-found"></div>
+						<label for="no">警員編號</label>
+						<input type="number" class="form-control" id="no" placeholder="警員編號" autofocus>
+					</div>
+					<button type="submit" class="btn btn-primary navbar-btn">查詢</button>
+					<button type="button" class="btn btn-danger navbar-btn" onclick="reset()">重設</button>
+				</form>
+				<table class="table table-striped table-hover table-condensed" id="result-table">
+					<thead>
+						<tr>
+							<th>警員編號</th>
+							<th>警員姓名</th>
+							<th>職級</th>
+							<th>輔警?</th>
+							<th>來源</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+			<div class="container-fluid" id="section-reverse">
+				<form id="search-form-reverse">
+					<div class="form-group">
+						<div class="alert alert-danger" role="alert" id="not-found-reverse"></div>
+						<label for="name">警員姓名</label>
+						<input type="text" class="form-control" id="name" placeholder="警員姓名" autofocus>
+					</div>
+					<button type="submit" class="btn btn-primary navbar-btn">查詢</button>
+					<button type="button" class="btn btn-danger navbar-btn" onclick="resetReverse()">重設</button>
+				</form>
+				<table class="table table-striped table-hover table-condensed" id="result-table-reverse">
+					<thead>
+						<tr>
+							<th>警員編號</th>
+							<th>警員姓名</th>
+							<th>職級</th>
+							<th>輔警?</th>
+							<th>來源</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+			<div class="container-fluid" id="section-2">
+				<p>This site is inspired by an android app called "表揚香港警察" and aims to provide a web-platform for searching "Hong Kong Police Long Service Medal" award-winning policemen via his / her ID number.</p>
+				<p></p>
+				<p>Comparing with the android app "表揚香港警察", this site can provide much updated data.</p>
+				<p></p>
+				<p>All the data used in this site were retrieved from http://www.gld.gov.hk/egazette/ (香港特別行政區政府憲報) as following:</p>
+				<p></p>
+				<table class="table table-striped table-hover table-condensed table-bordered">
+					<thead>
+						<tr>
+							<th>Year</th>
+							<th>PDF</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>2001</td>
+							<td>
+							  <a href="http://www.gld.gov.hk/egazette/pdf/20010520/cgn200105202998.pdf">cgn200105202998.pdf</a><br>
+							  <a href="http://www.gld.gov.hk/egazette/pdf/20010520/cgn200105202999.pdf">cgn200105202999.pdf</a><br>
+							  <a href="http://www.gld.gov.hk/egazette/pdf/20010539/cgn200105395937.pdf">cgn200105395937.pdf</a><br>
+							</td>
+						</tr>
+						<tr>
+							<td>2002</td>
+							<td>
+							  <a href="http://www.gld.gov.hk/egazette/pdf/20020623/cgn200206233347.pdf">cgn200206233347.pdf</a><br>
+							  <a href="http://www.gld.gov.hk/egazette/pdf/20020623/cgn200206233348.pdf">cgn200206233348.pdf</a><br>
+							  <a href="http://www.gld.gov.hk/egazette/pdf/20020640/cgn200206406187.pdf">cgn200206406187.pdf</a><br>
+							</td>
+						</tr>
+						<tr>
+							<td>2003</td>
+							<td>
+							  <a href="http://www.gld.gov.hk/egazette/pdf/20030715/cgn200307152405.pdf">cgn200307152405.pdf</a><br>
+							  <a href="http://www.gld.gov.hk/egazette/pdf/20030715/cgn200307152406.pdf">cgn200307152406.pdf</a><br>
+							  <a href="http://www.gld.gov.hk/egazette/pdf/20030736/cgn200307365995.pdf">cgn200307365995.pdf</a><br>
+							</td>
+						</tr>
+						<tr>
+							<td>2004</td>
+							<td>
+							  <a href="http://www.gld.gov.hk/egazette/pdf/20040814/cgn200408142134.pdf">cgn200408142134.pdf</a><br>
+							  <a href="http://www.gld.gov.hk/egazette/pdf/20040814/cgn200408142135.pdf">cgn200408142135.pdf</a><br>
+							  <a href="http://www.gld.gov.hk/egazette/pdf/20040839/cgn200408396217.pdf">cgn200408396217.pdf</a><br>
+							</td>
+						</tr>
+						<tr>
+							<td>2005</td>
+							<td>
+							  <a href="http://www.gld.gov.hk/egazette/pdf/20050911/cgn200509111188.pdf">cgn200509111188.pdf</a><br>
+							  <a href="http://www.gld.gov.hk/egazette/pdf/20050911/cgn200509111189.pdf">cgn200509111189.pdf</a><br>
+							  <a href="https://www.gld.gov.hk/egazette/pdf/20050941/cgn200509415186.pdf">cgn200509415186.pdf</a><br>
+							</td>
+						</tr>
+						<tr>
+							<td>2006</td>
+							<td>
+							  <a href="https://www.gld.gov.hk/egazette/pdf/20061017/cgn200610172570.pdf">cgn200610172570.pdf</a><br>
+							  <a href="https://www.gld.gov.hk/egazette/pdf/20061017/cgn200610172571.pdf">cgn200610172571.pdf</a><br>
+							  <a href="http://www.gld.gov.hk/egazette/pdf/20061036/cgn200610365550.pdf">cgn200610365550.pdf</a><br>
+							</td>
+						</tr>
+						<tr>
+							<td>2007</td>
+							<td>
+								<a href="http://www.gld.gov.hk/egazette/pdf/20071116/cgn200711162451.pdf">cgn200711162451.pdf</a><br>
+								<a href="http://www.gld.gov.hk/egazette/pdf/20071116/cgn200711162452.pdf">cgn200711162452.pdf</a><br>
+								<a href="http://www.gld.gov.hk/egazette/pdf/20071143/cgn200711436860.pdf">cgn200711436860.pdf</a><br>
+							</td>
+						</tr>
+						<tr>
+							<td>2008</td>
+							<td>
+							  <a href="http://www.gld.gov.hk/egazette/pdf/20081218/cgn200812182830.pdf">cgn200812182830.pdf</a><br>
+							  <a href="http://www.gld.gov.hk/egazette/pdf/20081218/cgn200812182831.pdf">cgn200812182831.pdf</a><br>
+							  <a href="http://www.gld.gov.hk/egazette/pdf/20081242/cgn200812427035.pdf">cgn200812427035.pdf</a><br>
+							</td>
+						</tr>
+						<tr>
+							<td>2009</td>
+							<td>
+					            <a href="https://www.gld.gov.hk/egazette/pdf/20091318/cgn200913182591.pdf">cgn200913182591.pdf</a><br>
+					            <a href="https://www.gld.gov.hk/egazette/pdf/20091318/cgn200913182592.pdf">cgn200913182592.pdf</a><br>
+								<a href="http://www.gld.gov.hk/egazette/pdf/20091343/cgn200913436560.pdf">cgn200913436560.pdf</a><br>
+							</td>
+						</tr>
+						<tr>
+							<td>2010</td>
+							<td>
+								<a href="http://www.gld.gov.hk/egazette/pdf/20101425/cgn201014253660.pdf">cgn201014253660.pdf</a><br>
+								<a href="http://www.gld.gov.hk/egazette/pdf/20101425/cgn201014253661.pdf">cgn201014253661.pdf</a><br>
+								<a href="http://www.gld.gov.hk/egazette/pdf/20101448/cgn201014487510.pdf">cgn201014487510.pdf</a><br>
+							</td>
+						</tr>
+						<tr>
+							<td>2011</td>
+							<td>
+        						<a href="https://www.gld.gov.hk/egazette/pdf/20111526/cgn201115264109.pdf">cgn201115264109.pdf</a><br>
+								<a href="https://www.gld.gov.hk/egazette/pdf/20111526/cgn201115264112.pdf">cgn201115264112.pdf</a><br>
+							</td>
+						</tr>
+						<tr>
+							<td>2012</td>
+							<td>
+								<a href="http://www.gld.gov.hk/egazette/pdf/20121603/cgn20121603263.pdf">cgn20121603263.pdf</a><br>
+								<a href="http://www.gld.gov.hk/egazette/pdf/20121632/cgn201216325323.pdf">cgn201216325323.pdf</a><br>
+								<a href="http://www.gld.gov.hk/egazette/pdf/20121632/cgn201216325324.pdf">cgn201216325324.pdf</a><br>
+								<a href="http://www.gld.gov.hk/egazette/pdf/20121652/cgn201216528251.pdf">cgn201216528251.pdf</a><br>
+							</td>
+						</tr>
+						<tr>
+							<td>2013</td>
+							<td>
+								<a href="http://www.gld.gov.hk/egazette/pdf/20131732/cgn201317324576.pdf">cgn201317324576.pdf</a><br>
+								<a href="http://www.gld.gov.hk/egazette/pdf/20131733/cgn201317334756.pdf">cgn201317334756.pdf</a><br>
+							</td>
+						</tr>
+						<tr>
+							<td>2014</td>
+							<td>
+								<a href="http://www.gld.gov.hk/egazette/pdf/20141813/cgn201418131744.pdf">cgn201418131744.pdf</a><br>
+								<a href="http://www.gld.gov.hk/egazette/pdf/20141832/cgn201418324511.pdf">cgn201418324511.pdf</a><br>
+								<a href="http://www.gld.gov.hk/egazette/pdf/20141832/cgn201418324512.pdf">cgn201418324512.pdf</a><br>
+							</td>
+						</tr>
+						<tr>
+							<td>2015</td>
+							<td>
+								<a href="https://www.gld.gov.hk/egazette/pdf/20151905/cgn201519051206.pdf">cgn201519051206.pdf</a><br>
+								<a href="https://www.gld.gov.hk/egazette/pdf/20151928/cgn201519284900.pdf">cgn201519284900.pdf</a><br>
+								<a href="https://www.gld.gov.hk/egazette/pdf/20151928/cgn201519284901.pdf">cgn201519284901.pdf</a><br>
+							</td>
+						</tr>
+						<tr>
+							<td>2016</td>
+							<td>
+								<a href="http://www.gld.gov.hk/egazette/pdf/20162001/cgn2016200125.pdf">cgn2016200125.pdf</a><br>
+								<a href="https://www.gld.gov.hk/egazette/pdf/20162029/cgn201620294038.pdf">cgn201620294038.pdf</a><br>
+								<a href="https://www.gld.gov.hk/egazette/pdf/20162029/cgn201620294039.pdf">cgn201620294039.pdf</a><br>
+							</td>
+						</tr>
+						<tr>
+							<td>2017</td>
+							<td>
+								<a href="https://www.gld.gov.hk/egazette/pdf/20172103/cgn20172103251.pdf">cgn20172103251.pdf</a><br>
+								<a href="https://www.gld.gov.hk/egazette/pdf/20172126/cgn201721264331.pdf">cgn201721264331.pdf</a><br>
+								<a href="https://www.gld.gov.hk/egazette/pdf/20172126/cgn201721264332.pdf">cgn201721264332.pdf</a><br>
+							</td>
+						</tr>
+						<tr>
+							<td>2018</td>
+							<td>
+								<a href="https://www.gld.gov.hk/egazette/pdf/20182202/cgn20182202143.pdf">cgn20182202143.pdf</a><br>
+								<a href="https://www.gld.gov.hk/egazette/pdf/20182229/cgn201822295363.pdf">cgn201822295363.pdf</a><br>
+								<a href="https://www.gld.gov.hk/egazette/pdf/20182229/cgn201822295364.pdf">cgn201822295364.pdf</a><br>
+							</td>
+						</tr>
+						<tr>
+							<td>2019</td>
+							<td>
+								<a href="https://www.gld.gov.hk/egazette/pdf/20192301/cgn2019230137.pdf">cgn2019230137.pdf</a><br>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<p></p>
+				<p><a href="https://www.gld.gov.hk/egazette/tc_chi/search_gazette/search_gov_notice.html">https://www.gld.gov.hk/egazette/tc_chi/search_gazette/search_gov_notice.html</a> can be used to search the gazettes above.</p>
+				<p>E.g. <a href="https://www.gld.gov.hk/egazette/tc_chi/search_gazette/search.php?Year=2000&Date=&NoticeNo=&Title=警察&type=mg&submit=搜尋">https://www.gld.gov.hk/egazette/tc_chi/search_gazette/search.php?Year=2000&Date=&NoticeNo=&Title=警察&type=mg&submit=搜尋</a></p>
+				<p></p>
+				<p>Feel free to contact us via <a href="mailto:police.github@gmail.com">police.github@gmail.com</a> if find there are any problems.</p>
+				<p></p>
+				<p>And you could download the project in <a href="https://github.com/police-github/police-github.github.io">Github.</a></p>
+				<p></p>
+			</div>
+		</div>
+		
+		<script>
+			var officers = null;
+			var officers2 = null;
+		
+			function tab1() {
+				if ($('#tab-2').hasClass('active') || $('#tab-reverse').hasClass('active')) {
+					$('#tab-2').removeClass('active');
+					$('#section-2').hide();
+					
+					$('#tab-reverse').removeClass('active');
+					$('#section-reverse').hide();
+					
+					$('#tab-1').addClass('active');
+					$('#section-1').show();
+				}
+			}
+			function tab2() {
+				if ($('#tab-1').hasClass('active') || $('#tab-reverse').hasClass('active')) {
+					$('#tab-1').removeClass('active');
+					$('#section-1').hide();
+					
+					$('#tab-reverse').removeClass('active');
+					$('#section-reverse').hide();
+					
+					$('#tab-2').addClass('active');
+					$('#section-2').show();
+				}
+			}
+			function tabReverse() {
+				if ($('#tab-1').hasClass('active') || $('#tab-2').hasClass('active')) {
+					$('#tab-1').removeClass('active');
+					$('#section-1').hide();
+					
+					$('#tab-2').removeClass('active');
+					$('#section-2').hide();
+					
+					$('#tab-reverse').addClass('active');
+					$('#section-reverse').show();
+				}
+			}
+		
+			$(function() {
+				$.getJSON('./data.json', function(data) {
+					officers = data;
+				});
+			});
+			
+			function resetForm() {
+				$('#no').val('');
+				$('#not-found').hide();
+				$('#result-table').find('tbody').empty();
+			}
+		
+			$('#search-form').submit(function(e) {
+				e.preventDefault();
+			
+				var no = $('#no').val();
+				if (!!no) {
+					if (!officers.hasOwnProperty(no)) {
+						$('#not-found').html('找不到警員資料 (編號: ' + no + ')');
+						$('#not-found').show();
+					} else {
+						$.each(officers[no], function(index, officer) {
+							var name = officer.name;
+							var position = officer.position;
+							var isAuxiliary = officer.isAuxiliary;
+							var source = officer.source;
+							var row = (
+								'<tr>'
+								+ '<td>' + no + '</td>'
+								+ '<td>' + name + '</td>'
+								+ '<td>' + position + '</td>'
+								+ '<td>' + (isAuxiliary ? '<i class="material-icons">check</i>' : '<i class="material-icons">close</i>') + '</td>'
+								+ '<td><a href="' + source + '">' + source.split('/')[source.split('/').length - 1] + '</a></td>'
+								+ '</tr>'
+							);
+							
+							$('#no').val('');
+							$('#not-found').hide();
+							$('#result-table').find('tbody').prepend(row);
+						});
+					}
+				}
+			});
+		
+			$('#search-form-reverse').submit(function(e) {
+				e.preventDefault();
+			
+				var name = $('#name').val();
+				if (!!name) {
+					var isFound = false;
+					for (k in officers) {
+						var arr = officers[k];
+						for (var i = 0; i < arr.length; i++) {
+							if (name == arr[i].name) {
+								var no = k;
+								var position = arr[i].position;
+								var isAuxiliary = arr[i].isAuxiliary;
+								var source = arr[i].source;
+								var row = (
+									'<tr>'
+									+ '<td>' + no + '</td>'
+									+ '<td>' + name + '</td>'
+									+ '<td>' + position + '</td>'
+									+ '<td>' + (isAuxiliary ? '<i class="material-icons">check</i>' : '<i class="material-icons">close</i>') + '</td>'
+									+ '<td><a href="' + source + '">' + source.split('/')[source.split('/').length - 1] + '</a></td>'
+									+ '</tr>'
+								);
+								
+								$('#name').val('');
+								$('#not-found-reverse').hide();
+								$('#result-table-reverse').find('tbody').prepend(row);
+							
+								isFound = true;
+							}
+						}
+					}
+					if (isFound == false) {
+						$('#not-found-reverse').html('找不到警員資料 (姓名: ' + name + ')');
+						$('#not-found-reverse').show();
+					}
+				}
+			});
+		</script>
+	</body>
+</html> 
