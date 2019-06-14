@@ -73,7 +73,7 @@
 						<input type="number" class="form-control" id="no" placeholder="警員編號" autofocus>
 					</div>
 					<button type="submit" class="btn btn-primary navbar-btn">查詢</button>
-					<button type="button" class="btn btn-danger navbar-btn" onclick="reset()">重設</button>
+					<button type="button" class="btn btn-danger navbar-btn" onclick="resetForm()">重設</button>
 				</form>
 				<table class="table table-striped table-hover table-condensed" id="result-table">
 					<thead>
@@ -95,11 +95,11 @@
 				<form id="search-form-reverse">
 					<div class="form-group">
 						<div class="alert alert-danger" role="alert" id="not-found-reverse"></div>
-						<label for="name">警員姓名</label>
+						<label for="name">警員姓名 (唔洗全名)</label>
 						<input type="text" class="form-control" id="name" placeholder="警員姓名" autofocus>
 					</div>
 					<button type="submit" class="btn btn-primary navbar-btn">查詢</button>
-					<button type="button" class="btn btn-danger navbar-btn" onclick="resetReverse()">重設</button>
+					<button type="button" class="btn btn-danger navbar-btn" onclick="resetFormReverse()">重設</button>
 				</form>
 				<table class="table table-striped table-hover table-condensed" id="result-table-reverse">
 					<thead>
@@ -295,6 +295,35 @@
 		</div>
 		
 		<script>
+			var posMap = {
+				1: '副輔警總監',
+				2: '女總督察(輔警)',
+				3: '女警司(輔警)',
+				4: '女警員',
+				5: '女警員(輔警)',
+				6: '女警署警長(輔警)',
+				7: '女警長',
+				8: '女警長(輔警)',
+				9: '女高級督察(輔警)',
+				10: '女高級警員',
+				11: '女高級警員(輔警)',
+				12: '督察(輔警)',
+				13: '總督察(輔警)',
+				14: '總警司(輔警)',
+				15: '警司(輔警)',
+				16: '警員',
+				17: '警員(輔警)',
+				18: '警署警長',
+				19: '警署警長(輔警)',
+				20: '警長',
+				21: '警長(輔警)',
+				22: '輔警總監',
+				23: '高級督察(輔警)',
+				24: '高級警司(輔警)',
+				25: '高級警員',
+				26: '高級警員(輔警)'
+			};
+		
 			var officers = null;
 			var officers2 = null;
 		
@@ -336,7 +365,7 @@
 			}
 		
 			$(function() {
-				$.getJSON('./data.json', function(data) {
+				$.getJSON('./data.compress.json', function(data) {
 					officers = data;
 				});
 			});
@@ -345,6 +374,12 @@
 				$('#no').val('');
 				$('#not-found').hide();
 				$('#result-table').find('tbody').empty();
+			}
+			
+			function resetFormReverse() {
+				$('#name').val('');
+				$('#not-found-reverse').hide();
+				$('#result-table-reverse').find('tbody').empty();
 			}
 		
 			$('#search-form').submit(function(e) {
@@ -357,17 +392,18 @@
 						$('#not-found').show();
 					} else {
 						$.each(officers[no], function(index, officer) {
-							var name = officer.name;
-							var position = officer.position;
-							var isAuxiliary = officer.isAuxiliary;
-							var source = officer.source;
+							var name = officer.n;
+							var position = posMap[officer.p];
+							var isAuxiliary = officer.a;
+							var source = 'cgn' + officer.s + '.pdf';
+							var link = 'https://www.gld.gov.hk/egazette/pdf/' + officer.s.substring(0, 8) + '/' + source; 
 							var row = (
 								'<tr>'
 								+ '<td>' + no + '</td>'
 								+ '<td>' + name + '</td>'
 								+ '<td>' + position + '</td>'
 								+ '<td>' + (isAuxiliary ? '<i class="material-icons">check</i>' : '<i class="material-icons">close</i>') + '</td>'
-								+ '<td><a href="' + source + '">' + source.split('/')[source.split('/').length - 1] + '</a></td>'
+								+ '<td><a href="' + link + '">' + source + '</a></td>'
 								+ '</tr>'
 							);
 							
@@ -382,24 +418,25 @@
 			$('#search-form-reverse').submit(function(e) {
 				e.preventDefault();
 			
-				var name = $('#name').val();
+				var name = $('#name').val().trim();
 				if (!!name) {
 					var isFound = false;
 					for (k in officers) {
 						var arr = officers[k];
 						for (var i = 0; i < arr.length; i++) {
-							if (name == arr[i].name) {
+							if (arr[i].n.indexOf(name) > -1) {
 								var no = k;
-								var position = arr[i].position;
-								var isAuxiliary = arr[i].isAuxiliary;
-								var source = arr[i].source;
+								var position = posMap[arr[i].p];
+								var isAuxiliary = arr[i].a;
+								var source = 'cgn' + arr[i].s + '.pdf';
+								var link = 'https://www.gld.gov.hk/egazette/pdf/' + arr[i].s.substring(0, 8) + '/' + source; 
 								var row = (
 									'<tr>'
 									+ '<td>' + no + '</td>'
-									+ '<td>' + name + '</td>'
+									+ '<td>' + arr[i].n + '</td>'
 									+ '<td>' + position + '</td>'
 									+ '<td>' + (isAuxiliary ? '<i class="material-icons">check</i>' : '<i class="material-icons">close</i>') + '</td>'
-									+ '<td><a href="' + source + '">' + source.split('/')[source.split('/').length - 1] + '</a></td>'
+									+ '<td><a href="' + link + '">' + source + '</a></td>'
 									+ '</tr>'
 								);
 								
